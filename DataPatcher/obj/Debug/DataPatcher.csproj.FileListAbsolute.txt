@@ -1,0 +1,2 @@
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe.config
+X:\tcodd\Programs\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe.config
