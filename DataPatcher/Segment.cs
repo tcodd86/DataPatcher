@@ -10,6 +10,7 @@ namespace DataPatcher
     {
         public decimal start { get; private set; }
         public decimal end { get; private set; }
+        public int precedence { get; private set; }
 
         //private data member to store the actual data from the segment
         private decimal[,] data;
@@ -43,7 +44,7 @@ namespace DataPatcher
         /// <param name="segData">
         /// One dimensional array containing frequency and absorption values.
         /// </param>
-        public Segment(decimal[] segData)
+        public Segment(decimal[] segData, int precedence)
         {
             data = new decimal[segData.Length / 2, 2];
             for (int i = 0; i < segData.Length; i++)
@@ -52,6 +53,56 @@ namespace DataPatcher
             }
             start = segData[0];
             end = segData[segData.Length - 2];
+            this.precedence = precedence;
+        }
+
+        /// <summary>
+        /// Replaces the data array with an array consisting only of frequencies between startFreq and endFreq
+        /// </summary>
+        /// <param name="startFreq">
+        /// Low frequency bound.
+        /// </param>
+        /// <param name="endFreq">
+        /// High frequency bound.
+        /// </param>
+        /// <returns>
+        /// True if subsegment contains any data points, false if not.
+        /// </returns>
+        public bool subSegment(decimal startFreq, decimal endFreq)
+        {
+            int startIndex = 0, endIndex = 0;
+            bool started = false;
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                if (!started)
+                {
+                    if (data[i, 0] > startFreq)
+                    {
+                        startIndex = i;
+                        started = true;
+                    }
+                }
+                else
+                {
+                    if (data[i, 0] > endFreq)
+                    {
+                        endIndex = i - 1;
+                        break;
+                    }
+                }
+            }
+            if (!started)
+            {
+                return false;
+            }
+            decimal[,] subSeg = new decimal[endIndex - startIndex + 1, 2];
+            for (int i = 0; i < subSeg.GetLength(0); i++)
+            {
+                subSeg[i, 0] = data[startIndex + i, 0];
+                subSeg[i, 1] = data[startIndex + i, 1];
+            }
+            data = subSeg;
+            return true;
         }
     }
 }

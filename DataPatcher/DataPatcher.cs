@@ -65,6 +65,12 @@ namespace DataPatcher
                 }
                 decData.Add(tempDec);
             }
+
+            List<Segment> segmentedData = segmenter(decData);
+
+            //code here to patch data
+            //start by calling segmenter function
+            //then function to take segments and patch them all together.
         }//end open data file button
 
         private List<Segment> segmenter(List<decimal[]> data)
@@ -90,17 +96,20 @@ namespace DataPatcher
 
                 //to store where the next segment should start at
                 int start = 0;
-                for (int j = 3; j < data[i].Length; j += 2)
+                for (int j = 2; j < data[i].Length; j += 2)
                 {
                     if (Math.Abs(data[i][j] - data[i][j - 2]) > diff)
                     {
-                        //need to add code here to take contiguous portion of data from the data[i] array to pass to segment constructor
-                        start = j - 3;
+                        temp = new decimal[j - 2 - start + 1];
+                        for (int k = 0; k < temp.Length; k++)
+                        {
+                            temp[k] = data[i][start + k];
+                        }
+                        segList.Add(new Segment(temp, i));
+                        start = j - 1;
                     }
-                }
-            }
-
-
+                }//end for loop over data elements
+            }//end for loop over data
             return segList;
         }//end method segmenter
 
