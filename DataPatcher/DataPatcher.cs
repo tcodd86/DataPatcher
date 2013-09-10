@@ -68,10 +68,12 @@ namespace DataPatcher
 
             List<Segment> segmentedData = segmenter(decData);
 
+            sortSegs(ref segmentedData);
+
             //code here to patch data
             //start by calling segmenter function
             //then function to take segments and patch them all together.
-        }//end open data file button
+        }
 
         private List<Segment> segmenter(List<decimal[]> data)
         {
@@ -113,12 +115,31 @@ namespace DataPatcher
             return segList;
         }//end method segmenter
 
-        private decimal[] patcher(List<Segment> segList)
+        private void patcher(ref List<Segment> segList)
         {
-            decimal[] patchedData;
+            //then call subSegment to trim all freqs below the previous segments highest freq
+            //if no data points left, delete the segment from the list
 
-
-            return patchedData;
         }
+
+        private void sortSegs(ref List<Segment> segList)
+        {
+            bool swapped = true;
+            Segment temp;
+            while (swapped)
+            {
+                swapped = false;
+                for (int i = 1; i < segList.Count; i++)
+                {
+                    if (segList[i - 1].avgFreq > segList[i].avgFreq)
+                    {
+                        temp = segList[i - 1];
+                        segList[i - 1] = segList[i];
+                        segList[i] = temp;
+                        swapped = true;
+                    }//end if
+                }//end for
+            }//end while
+        }//end sortSegs
     }
 }

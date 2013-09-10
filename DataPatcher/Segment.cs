@@ -11,6 +11,7 @@ namespace DataPatcher
         public decimal start { get; private set; }
         public decimal end { get; private set; }
         public int precedence { get; private set; }
+        public decimal avgFreq { get; private set; }
 
         //private data member to store the actual data from the segment
         private decimal[,] data;
@@ -53,6 +54,7 @@ namespace DataPatcher
             }
             start = segData[0];
             end = segData[segData.Length - 2];
+            avgFreq = Math.Abs((end - start) / 2M);
             this.precedence = precedence;
         }
 
@@ -104,5 +106,50 @@ namespace DataPatcher
             data = subSeg;
             return true;
         }
+
+        public void replaceSubSeg(Segment subSeg)
+        {
+            int i;
+            int start = 0;
+            for (i = 0; i < data.GetLength(0); i++)
+            {
+                if (data[i, 0] > subSeg.start)
+                {
+                    start = i;
+                    break;
+                }
+            }
+            for (i = start; i < data.GetLength(0); i++)
+            {
+                if (data[i, 0] > subSeg.end)
+                {
+                    break;
+                }
+            }
+
+            var newData = new decimal[subSeg.data.GetLength(0) + start + (data.GetLength(0) - 1), 2];
+            //decimal[,] lowSubSeg = new decimal[start, 2];
+            //decimal[,] highSubSeg = new decimal[data.GetLength(0) - i, 2];
+            int j;
+            for (j = 0; j < start; j++)
+            {
+                newData[j, 0] = data[j, 0];
+                newData[j, 1] = data[j, 1];
+            }
+            j = start;
+            for (int k = 0; k < subSeg.data.GetLength(0); k++)
+            {
+                newData[j, 0] = subSeg.data[k, 0];
+                newData[j, 1] = subSeg.data[k, 1];
+                j++;
+            }
+            for (int k = i; k < data.GetLength(0); k++)
+            {
+                newData[j, 0] = data[k, 0];
+                newData[j, 1] = data[k, 1];
+                j++;
+            }
+            
+        }//end method replaceSubSeg
     }
 }
