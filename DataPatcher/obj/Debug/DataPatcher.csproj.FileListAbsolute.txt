@@ -1,2 +1,10 @@
 C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe.config
 X:\tcodd\Programs\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe.config
+X:\tcodd\Programs\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe
+X:\tcodd\Programs\DataPatcher\DataPatcher\bin\Debug\DataPatcher.pdb
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.csprojResolveAssemblyReference.cache
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.DataPatcher.resources
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.Properties.Resources.resources
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.csproj.GenerateResource.Cache
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.exe
+X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.pdb

@@ -59,7 +59,7 @@ namespace DataPatcher
             }
             start = segData[0];
             end = segData[segData.Length - 2];
-            avgFreq = Math.Abs((end - start) / 2M);
+            avgFreq = Math.Abs((end + start) / 2M);
             this.precedence = precedence;
         }
 

@@ -20,10 +20,11 @@ namespace DataPatcher
 
         string filePath;
         List<string[]> dataFiles = new List<string[]>();
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] dataFile = {};
+            string[] dataFile = { };
             addDataFile.Title = "Select a data file to patch";
             if (String.IsNullOrEmpty(filePath))
             {
@@ -43,12 +44,13 @@ namespace DataPatcher
             {
                 char[] delimiters = new char[] { '\t', '\r' };
                 string nextLine;
+                string[] dataLine;
                 while ((nextLine = dataReader.ReadLine()) != null)
                 {
-                    string[] dataLine = nextLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                    dataFile.Concat(dataLine).ToArray();
+                    dataLine = nextLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    dataFile = dataFile.Concat(dataLine).ToArray();
                 }
-                dataFiles.Add(dataFile);
+                dataFiles.Add(dataFile);                
             }
 
             PatchDataFiles.Enabled = true;
@@ -82,7 +84,7 @@ namespace DataPatcher
                 for (int j = 0; j < segmentedData[i].getCount(); j++)
                 { 
                     line.Append(Convert.ToString(tempData[j, 0])).Append("\t");
-                    line.Append(Convert.ToString(tempData[j, 1]));
+                    line.Append(Convert.ToString(tempData[j, 1])).Append("\r");
                 }
                 linesToWrite.Add(line.ToString());
             }
@@ -134,15 +136,21 @@ namespace DataPatcher
                 {
                     if (Math.Abs(data[i][j] - data[i][j - 2]) > diff)
                     {
-                        temp = new decimal[j - 2 - start + 1];
+                        temp = new decimal[j - start];
                         for (int k = 0; k < temp.Length; k++)
                         {
                             temp[k] = data[i][start + k];
                         }
                         segList.Add(new Segment(temp, i));
-                        start = j - 1;
-                    }
+                        start = j + 2;
+                    }                    
                 }//end for loop over data elements
+                temp = new decimal[data[i].Length - start];
+                for (int k = 0; k < temp.Length; k++)
+                {
+                    temp[k] = data[i][start + k];
+                }
+                segList.Add(new Segment(temp, i));
             }//end for loop over data
             return segList;
         }//end method segmenter
