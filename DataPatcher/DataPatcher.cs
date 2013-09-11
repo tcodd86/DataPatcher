@@ -50,6 +50,8 @@ namespace DataPatcher
                 }
                 dataFiles.Add(dataFile);
             }
+
+            PatchDataFiles.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -70,9 +72,39 @@ namespace DataPatcher
 
             sortSegs(ref segmentedData);
 
-            //code here to patch data
-            //start by calling segmenter function
-            //then function to take segments and patch them all together.
+            patcher(ref segmentedData);
+
+            var linesToWrite = new List<string>();
+            for (int i = 0; i < segmentedData.Count; i++)
+            {
+                var line = new StringBuilder();
+                var tempData = segmentedData[i].getData();
+                for (int j = 0; j < segmentedData[i].getCount(); j++)
+                { 
+                    line.Append(Convert.ToString(tempData[j, 0])).Append("\t");
+                    line.Append(Convert.ToString(tempData[j, 1]));
+                }
+                linesToWrite.Add(line.ToString());
+            }
+            if (String.IsNullOrEmpty(filePath))
+            {
+                saveFile.InitialDirectory = "C:";
+            }
+            else
+            {
+                saveFile.InitialDirectory = filePath;
+            }
+            saveFile.OverwritePrompt = true;
+            saveFile.CreatePrompt = false;
+            saveFile.FileName = "";
+            saveFile.Filter = "Text|*.txt|All Files|*.*";
+            saveFile.ShowDialog();
+            filePath = saveFile.FileName;
+
+            File.WriteAllLines(filePath, linesToWrite, Encoding.ASCII);
+
+            dataFiles.Clear();
+            PatchDataFiles.Enabled = false;
         }
 
         private List<Segment> segmenter(List<decimal[]> data)
@@ -117,9 +149,46 @@ namespace DataPatcher
 
         private void patcher(ref List<Segment> segList)
         {
-            //then call subSegment to trim all freqs below the previous segments highest freq
-            //if no data points left, delete the segment from the list
-
+            for (int i = 0; i < segList.Count - 1; i++)
+            {
+                if (segList[i + 1].start < segList[i].end)//means the two segments overlap
+                {
+                    if (segList[i + 1].start > segList[i].start)//means segList[i] has a lower start freq than segList[i + 1]
+                    {
+                        if (segList[i + 1].end > segList[i].end)//means segList[i + 1] has a higher end freq than segList[i]
+                        {
+                            if (segList[i + 1].precedence < segList[i].precedence)//means segList[i] should be trimmed
+                            {
+                                segList[i].subSegment(0M, segList[i + 1].start);
+                            }
+                            else//means trim segList[i + 1]
+                            {
+                                segList[i + 1].subSegment(segList[i].end, decimal.MaxValue);
+                            }
+                        }
+                        else//means segList[i + 1] is entirely within the range of segList[i]
+                        {
+                            if (segList[i + 1].precedence < segList[i].precedence)//if segList[i + 1] has lower precedencecall replaceSubSeg to insert the data from segList[i + 1] into segList[i]
+                            {
+                                segList[i].replaceSubSeg(segList[i + 1]);
+                            }
+                            //if not lower precedence then remove it without doing anything, if it was then it still needs to be removed
+                            segList.RemoveAt(i + 1);
+                            i--;
+                        }
+                    }
+                    else//means that segList[i] is completely within the bounds of segList[i + 1]
+                    {
+                        if (segList[i + 1].precedence > segList[i].precedence)//means call replaceSubSeg
+                        {
+                            segList[i + 1].replaceSubSeg(segList[i]);
+                        }
+                        //if not just remove, if true it still needs to be cut
+                        segList.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
         }
 
         private void sortSegs(ref List<Segment> segList)

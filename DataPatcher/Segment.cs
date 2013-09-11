@@ -25,6 +25,11 @@ namespace DataPatcher
         {
             return data;
         }
+
+        public int getCount()
+        {
+            return data.GetLength(0);
+        }
         /// <summary>
         /// Returns the frequency at point i
         /// </summary>
