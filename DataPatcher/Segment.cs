@@ -79,6 +79,7 @@ namespace DataPatcher
         {
             int startIndex = 0, endIndex = 0;
             bool started = false;
+            bool ended = false;
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 if (!started)
@@ -94,6 +95,7 @@ namespace DataPatcher
                     if (data[i, 0] > endFreq)
                     {
                         endIndex = i - 1;
+                        ended = true;
                         break;
                     }
                 }
@@ -101,6 +103,10 @@ namespace DataPatcher
             if (!started)
             {
                 return false;
+            }
+            if (!ended)
+            {
+                endIndex = data.GetLength(0) - 1;
             }
             decimal[,] subSeg = new decimal[endIndex - startIndex + 1, 2];
             for (int i = 0; i < subSeg.GetLength(0); i++)
