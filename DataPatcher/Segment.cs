@@ -138,6 +138,8 @@ namespace DataPatcher
                 }
             }
 
+            //two problems here
+            //#1. the bounds on this are totally wrong, fix this
             var newData = new decimal[subSeg.data.GetLength(0) + start + (data.GetLength(0) - 1), 2];
             //decimal[,] lowSubSeg = new decimal[start, 2];
             //decimal[,] highSubSeg = new decimal[data.GetLength(0) - i, 2];
@@ -160,7 +162,8 @@ namespace DataPatcher
                 newData[j, 1] = data[k, 1];
                 j++;
             }
-            
+            //#2. I never actually replace data[] with new data.  Need to do that.
+            int lll = 0;
         }//end method replaceSubSeg
     }
 }

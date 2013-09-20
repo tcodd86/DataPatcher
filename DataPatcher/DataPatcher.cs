@@ -124,7 +124,12 @@ namespace DataPatcher
                 //find average step size based off of first 10 data points
                 decimal diff = 0.0M;
                 //need to use step of 2 and start at 1 because every other data point is presumed to be a frequency point
-                for (int k = 1; k < 22; k += 2)
+                int avg = 22;
+                if (data[i].Length < 22)
+                {
+                    avg = data[i].Length;
+                }
+                for (int k = 2; k < avg; k += 2)
                 {
                     diff += data[i][k + 2] - data[i][k];
                 }
