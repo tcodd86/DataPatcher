@@ -8,3 +8,11 @@ X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.Properties.Resou
 X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.csproj.GenerateResource.Cache
 X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.exe
 X:\tcodd\Programs\DataPatcher\DataPatcher\obj\Debug\DataPatcher.pdb
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\bin\Debug\DataPatcher.exe
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\bin\Debug\DataPatcher.pdb
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.csprojResolveAssemblyReference.cache
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.DataPatcher.resources
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.Properties.Resources.resources
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.csproj.GenerateResource.Cache
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.exe
+C:\Users\Terrance\Documents\WorkStuff\DataPatcher\DataPatcher\obj\Debug\DataPatcher.pdb

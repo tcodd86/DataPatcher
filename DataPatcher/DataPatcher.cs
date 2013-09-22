@@ -154,7 +154,7 @@ namespace DataPatcher
                             temp[k] = data[i][start + k];
                         }
                         segList.Add(new Segment(temp, i));
-                        start = j + 2;
+                        start = j;
                     }                    
                 }//end for loop over data elements
                 temp = new decimal[data[i].Length - start];
