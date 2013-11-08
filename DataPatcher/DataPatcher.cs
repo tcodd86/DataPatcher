@@ -29,7 +29,7 @@ namespace DataPatcher
             addDataFile.Title = "Select a data file to patch";
             if (String.IsNullOrEmpty(filePath))
             {
-                addDataFile.InitialDirectory = "C:\\";
+                addDataFile.InitialDirectory = "X:\\tcodd\\HRCRDS Data\\NO3";
             }
             else
             {
