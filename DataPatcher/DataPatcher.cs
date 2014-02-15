@@ -29,7 +29,7 @@ namespace DataPatcher
             addDataFile.Title = "Select a data file to patch";
             if (String.IsNullOrEmpty(filePath))
             {
-                addDataFile.InitialDirectory = "X:\\tcodd\\HRCRDS Data\\NO3";
+                addDataFile.InitialDirectory = "C:";
             }
             else
             {
@@ -49,11 +49,6 @@ namespace DataPatcher
                 while ((nextLine = dataReader.ReadLine()) != null)
                 {
                     dataLine = nextLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                    //since MS Office and Origin both default to capital E in SciNotation, convert to lower E so can be converted
-                    //for (int i = 0; i < dataLine.Length; i++)
-                    //{
-                    //    dataLine[i] = dataLine[i].ToLower();
-                    //}
                     dataFile = dataFile.Concat(dataLine).ToArray();
                 }
                 dataFiles.Add(dataFile);                
@@ -71,7 +66,6 @@ namespace DataPatcher
                 tempDec = new decimal[dataFiles[i].Length];
                 for (int j = 0; j < dataFiles[i].Length; j++)
                 {
-                    //tempDec[j] = Convert.ToDecimal(dataFiles[i][j]);
                     tempDec[j] = Decimal.Parse(dataFiles[i][j], NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint);
                 }
                 decData.Add(tempDec);
