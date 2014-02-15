@@ -41,6 +41,17 @@ namespace DataPatcher
             addDataFile.ShowDialog();
             filePath = addDataFile.FileName;
 
+            if (File.Exists(filePath))
+            {
+                dataFiles.Add(fileRead(filePath));
+            }
+            else
+            {
+                MessageBox.Show("No File Loaded!");
+                return;
+            }
+
+            /*
             using (StreamReader dataReader = new StreamReader(filePath))
             {
                 char[] delimiters = new char[] { '\t', '\r' };
@@ -53,6 +64,7 @@ namespace DataPatcher
                 }
                 dataFiles.Add(dataFile);                
             }
+            */
 
             PatchDataFiles.Enabled = true;
         }
@@ -224,5 +236,36 @@ namespace DataPatcher
                 }//end for
             }//end while
         }//end sortSegs
+
+        /// <summary>
+        /// Reads a text file into memory and parses it into a string array.
+        /// </summary>
+        /// <param name="filepath">
+        /// Filepath of file to be read and parsed.
+        /// </param>
+        /// <returns>
+        /// Array containing all values from text file.
+        /// </returns>
+        public static string[] fileRead(string filepath)
+        {
+            List<string> inputF = new List<string>();
+            string[] inputFa = { };
+            using (StreamReader SOCJTin = new StreamReader(filepath))
+            {
+                string lineS;
+                string[] SOCJTNewLine;
+                char[] delimiters = new char[] { '\t', '\r', '=', ' ' };
+                while ((lineS = SOCJTin.ReadLine()) != null)
+                {
+                    SOCJTNewLine = lineS.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < SOCJTNewLine.Length; i++)
+                    {
+                        inputF.Add(SOCJTNewLine[i]);
+                    }
+                }//end while
+            }//end StreamReader
+            inputFa = inputF.ToArray();
+            return inputFa;
+        }//end method fileRead
     }
 }
